@@ -7,11 +7,14 @@ import java.util.Scanner;
 public class MovieCollection
 {
     private ArrayList<Movie> movies;
+    private ArrayList<String> allCast;
     private Scanner scanner;
     public MovieCollection(String fileName)
     {
         importMovieList(fileName);
         scanner = new Scanner(System.in);
+        allCast = getAllCast();
+        System.out.println(allCast.get(23));
     }
 
     public ArrayList<Movie> getMovies()
@@ -163,10 +166,6 @@ public class MovieCollection
 
     private void searchCast()
     {
-        ArrayList<String> allCast = new ArrayList<String>();
-        for(Movie movie : movies) {
-
-        }
     }
 
     private void searchKeywords()
@@ -244,5 +243,20 @@ public class MovieCollection
             // Print out the exception that occurred
             System.out.println("Unable to access " + exception.getMessage());
         }
+    }
+    public ArrayList<String> getAllCast() {
+        ArrayList<String> allCast = new ArrayList<String>();
+        for(Movie movie : movies) {
+            String cast = movie.getCast();
+            while(cast.contains("|")) {
+                String curCast = cast.substring(0, cast.indexOf("|")).toLowerCase();
+                if(!allCast.contains(curCast)) {
+                    allCast.add(curCast);
+                }
+                cast = cast.substring(cast.indexOf("|") + 1);
+            }
+            allCast.add(cast);
+        }
+        return allCast;
     }
 }
