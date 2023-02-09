@@ -55,33 +55,14 @@ public class MovieCollection
 
     private void processOption(String option)
     {
-        if (option.equals("t"))
-        {
-            searchTitles();
-        }
-        else if (option.equals("c"))
-        {
-            searchCast();
-        }
-        else if (option.equals("k"))
-        {
-            searchKeywords();
-        }
-        else if (option.equals("g"))
-        {
-            listGenres();
-        }
-        else if (option.equals("r"))
-        {
-            listHighestRated();
-        }
-        else if (option.equals("h"))
-        {
-            listHighestRevenue();
-        }
-        else
-        {
-            System.out.println("Invalid choice!");
+        switch (option) {
+            case "t" -> searchTitles();
+            case "c" -> searchCast();
+            case "k" -> searchKeywords();
+            case "g" -> listGenres();
+            case "r" -> listHighestRated();
+            case "h" -> listHighestRevenue();
+            default -> System.out.println("Invalid choice!");
         }
     }
 
@@ -191,9 +172,9 @@ public class MovieCollection
         System.out.print("Enter a keyword search term: ");
         String searchKeyword = scanner.nextLine().toLowerCase();
         ArrayList<Movie> results = new ArrayList<Movie>();
-        for(int i = 0; i < movies.size(); i++) {
-            if(movies.get(i).getKeywords().contains(searchKeyword)) {
-                results.add(movies.get(i));
+        for (Movie movie : movies) {
+            if (movie.getKeywords().contains(searchKeyword)) {
+                results.add(movie);
             }
         }
         sortResults(results);
@@ -225,12 +206,50 @@ public class MovieCollection
 
     private void listHighestRated()
     {
-
+        ArrayList<Movie> topRated = new ArrayList<Movie>();
+        for(int i = 0; i <= 50; i++) {
+            Movie movieToAdd = movies.get(0);
+            for(Movie movie : movies) {
+                if(!topRated.contains(movie) && movieToAdd.getUserRating() < movie.getUserRating()) {
+                    movieToAdd = movie;
+                }
+            }
+            topRated.add(movieToAdd);
+        }
+        for(int i = 0; i < topRated.size(); i++) {
+            System.out.println(i + 1 + ". " + topRated.get(i).getTitle() + ": " + topRated.get(i).getUserRating());
+        }
+        System.out.println("Which movie would you like to know more about? ");
+        System.out.print("Enter number: ");
+        int input = scanner.nextInt();
+        scanner.nextLine();
+        displayMovieInfo(topRated.get(input - 1));
+        System.out.println("\n Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
 
     private void listHighestRevenue()
     {
-
+        ArrayList<Movie> topRevenue = new ArrayList<Movie>();
+        for(int i = 0; i <= 49; i++) {
+            Movie movieToAdd = movies.get(0);
+            for(Movie movie : movies) {
+                if(!topRevenue.contains(movie) && movieToAdd .getRevenue() < movie.getRevenue()) {
+                    movieToAdd = movie;
+                }
+            }
+            topRevenue.add(movieToAdd);
+        }
+        for(int i = 0; i < topRevenue.size(); i++) {
+            System.out.println(i + 1 + ". " + topRevenue.get(i).getTitle() + ": $" + topRevenue.get(i).getRevenue());
+        }
+        System.out.println("Which movie would you like to know more about? ");
+        System.out.print("Enter number: ");
+        int input = scanner.nextInt();
+        scanner.nextLine();
+        displayMovieInfo(topRevenue.get(input - 1));
+        System.out.println("\n Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
 
     private void importMovieList(String fileName)
