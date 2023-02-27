@@ -207,7 +207,7 @@ public class MovieCollection
     private void listHighestRated()
     {
         ArrayList<Movie> topRated = new ArrayList<Movie>();
-        for(int i = 0; i <= 50; i++) {
+        for(int i = 0; i < 50; i++) {
             Movie movieToAdd = movies.get(0);
             for(Movie movie : movies) {
                 if(!topRated.contains(movie) && movieToAdd.getUserRating() < movie.getUserRating()) {
@@ -231,7 +231,7 @@ public class MovieCollection
     private void listHighestRevenue()
     {
         ArrayList<Movie> topRevenue = new ArrayList<Movie>();
-        for(int i = 0; i <= 49; i++) {
+        for(int i = 0; i < 50; i++) {
             Movie movieToAdd = movies.get(0);
             for(Movie movie : movies) {
                 if(!topRevenue.contains(movie) && movieToAdd .getRevenue() < movie.getRevenue()) {
